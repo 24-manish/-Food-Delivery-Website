@@ -1,5 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import { food_list } from "../assets/assets";
+import cart from "../pages/cart/cart";
 
 export  const StoreContext = createContext(null);
 
@@ -19,9 +20,18 @@ export const StoreContextProvider = (props) => {
   const removefromcart =(itemid)=>
     setcartitem((prev)=>({...prev,[itemid]:prev[itemid]-1}))
   
-  useEffect(()=>{
-      console.log(cartitem)
-  },[cartitem])
+  const gettotal=()=>{
+     let totalamount =0;
+     for(const item in cartitem)
+      { 
+        if(cartitem[item] >0){
+
+          let iteminfo = food_list.find((product)=>product._id === item)
+          totalamount += iteminfo.price*cartitem[item];
+        }
+      }
+      return totalamount;
+  }
 
 
   const contextValue = {
@@ -29,7 +39,8 @@ export const StoreContextProvider = (props) => {
     cartitem,
     setcartitem,
     addtocart,
-    removefromcart
+    removefromcart,
+    gettotal
   };
 
 
