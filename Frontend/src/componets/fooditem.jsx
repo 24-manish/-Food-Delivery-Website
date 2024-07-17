@@ -4,11 +4,11 @@ import '../index.css'
 import  {StoreContext} from '../componets/context'
   export const Fooditem = ({id,name,price,description,img}) => {
  
-  const{cartitem,addtocart,removefromcart}=useContext(StoreContext);
+  const{cartitem,addtocart,removefromcart,url}=useContext(StoreContext);
   return (
     <div className='w-full m-auto rounded-2xl shadow-lg shadow-slate-500 animate-fadein ' >
       <div className="w-full rounded  relative ">
-        <img className='w-full rounded-tl-2xl rounded-tr-2xl' src={img} alt="" />
+        <img className='w-full rounded-tl-2xl rounded-tr-2xl' src={url+"/images/"+img} alt="" />
         {!cartitem[id]  ?  <img className='w-8 absolute bottom-4 right-4 cursor-pointer rounded-xl' onClick={()=>addtocart(id)} src={assets.add_icon_white} alt="" />:
         <div className='absolute bottom-4 right-4 flex items-center gap-3 p-1 rounded-3xl bg-white '>
           <img className='w-7' onClick={()=>removefromcart(id)} src={assets.remove_icon_red} alt="" />

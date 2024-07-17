@@ -16,7 +16,7 @@ const App = () => {
 
   return (
     <>
-      {showLogin && <Login setLogin={setLogin} />}
+      {showLogin ? <Login setlogin={setLogin} />:<></>}
       <div className='w-[80%] m-auto'>
         {!isAdminRoute && <Navbar setLogin={setLogin} />}
         <Routes>

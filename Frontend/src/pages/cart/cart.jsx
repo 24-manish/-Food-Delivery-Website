@@ -4,70 +4,91 @@ import { useNavigate } from 'react-router-dom';
 
 const cart = () => {
 
-  const{ cartitem , food_list , removefromcart,gettotal}=useContext(StoreContext);
+  const{ cartitem , food_list , removefromcart,gettotal,url}=useContext(StoreContext);
   const navigate=useNavigate();
   return (
-    <div className='mt-28' >
-      <div>
-        <div className='grid  grid-cols-[1fr,1.5fr,1fr,1fr,1fr,0.5fr]  items-center  text-gray-500 text-lg   ' >
-          <p>itmes</p>
-          <p>title</p>
-          <p>price</p>
-          <p>quantity</p>
-          <p>total</p>
-          <p>remove</p>
+    <div className='mt-10 px-4'>
+      <div className=''>
+        {/* Table headers */}
+        <div className='grid grid-cols-6 items-center place-items-center text-gray-600 text-lg font-semibold bg-white py-2'>
+          <p>Items</p>
+          <p>Title</p>
+          <p>Price</p>
+          <p>Quantity</p>
+          <p>Total</p>
+          <p>Remove</p>
         </div>
-        <br />
-        <hr />
-        {food_list.map((item,index)=>{
-          if(cartitem[item._id]>0)
-            {
-              return (<div>
-              <div className='grid  grid-cols-[1fr,1.5fr,1fr,1fr,1fr,0.5fr] items-center mt-3 ml-0 mb-3 text-lg  text-black ' > 
-                <img className='w-[100px]' src={item.image} alt="" />
-                <p>{item.name}</p>
-                <p>${item.price}</p>
-                <p>{cartitem[item._id]}</p>
-                <p>${item.price*cartitem[item._id]}</p>
-                <p onClick={()=> removefromcart(item._id) } className='cursor-pointer' >X</p>
-                
+        <hr className='my-2 border-gray-200' />
+
+        {/* Cart items */}
+        {food_list.map((item) => {
+          if (cartitem[item._id] > 0) {
+            return (
+              <div key={item._id} className='group'>
+                <div className='grid grid-cols-6 items-center place-items-center rounded-md shadow-md shadow-gray-400 text-gray-600 text-lg font-semibold bg-gray-100 py-2'>
+  <img className='w-24 h-24 object-cover' src={`${url}/images/${item.image}`} alt='' />
+  <p>{item.name}</p>
+  <p>${item.price}</p>
+  <p>{cartitem[item._id]}</p>
+  <p>${(item.price * cartitem[item._id]).toFixed(2)}</p>
+  <button
+    onClick={() => removefromcart(item._id)}
+    className=' text-red-600 hover:text-red-800 focus:outline-none'
+  >
+    Remove
+  </button>
+</div>
+                <hr className='my-1 border-gray-200' />
               </div>
-              <hr className='h-[1px] bg-slate-500 border-none  ' />
-              </div>
-              )
-            }
-        }  )}
-      </div>
-      <div className='mt-20 flex justify-between gap-[max(12vw,20px)]' >
-        <div className='flex-1 flex-col gap-5 ' >
-          <h2>cart total</h2>
-          <div>
-            <div className='flex justify-between text-[#555]' ><p>subtotal</p>
-                  <p>{gettotal()}</p>
+            );
+          }
+          return null;
+        })}
+
+        {/* Cart totals */}
+        <div className='mt-8'>
+          <div className='bg-white p-4 rounded'>
+            <h2 className='text-xl font-semibold mb-4'>Cart Total</h2>
+            <div className='flex justify-between text-gray-700'>
+              <p>Subtotal</p>
+              <p>${gettotal()}</p>
             </div>
-            <hr className='mt-3 mr-0  ' />
-            <div className='flex justify-between text-[#555]' ><p>delivery fee</p>
-            <p>{gettotal()===0?0:2}</p></div>
-            <hr className='mt-3 mr-0  ' />
-            <div className='flex justify-between text-[#555]' ><p>total</p>
-            <p>{gettotal()===0?0:gettotal()+2}</p>
+            <hr className='my-2 border-gray-200' />
+            <div className='flex justify-between text-gray-700'>
+              <p>Delivery Fee</p>
+              <p>${gettotal() === 0 ? 0 : 2}</p>
             </div>
+            <hr className='my-2 border-gray-200' />
+            <div className='flex justify-between text-gray-700'>
+              <p className='font-semibold'>Total</p>
+              <p className='font-semibold'>${gettotal() === 0 ? 0 : gettotal() + 2}</p>
             </div>
-            <button onClick={()=>navigate('/order')} className='border-none text-white bg-orange-500 w-[max(15vw,200px)] p-3 rounded cursor-pointer' >proceed to checkout</button>
-          </div>
-          <div className='flex' >
-            <div  >
-              <p className='text-[#555]  ' >If u have a promo code enter it here</p>
-              <div className='mt-3 flex justify-between items-center gap-5 bg-gray-300 rounded'>
-                <input className='bg-transparent border-none outline-none pl-3 '  type="text" placeholder='promo code'  />
-                <button className='w-fit p-4 bg-black text-white rounded  ' >Submit</button>
-              </div>
-            </div>
+            <button
+              onClick={() => navigate('/order')}
+              className='mt-6 bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 focus:outline-none'
+            >
+              Proceed to Checkout
+            </button>
           </div>
         </div>
       </div>
-    
-  )
+
+      {/* Promo code input */}
+      <div className='mt-8'>
+        <p className='text-gray-700'>If you have a promo code, enter it here:</p>
+        <div className='mt-3 flex items-center'>
+          <input
+            className='py-2 px-3 border border-gray-300 rounded-l focus:outline-none'
+            type='text'
+            placeholder='Promo code'
+          />
+          <button className='bg-black text-white px-4 py-2 rounded-r hover:bg-gray-900 focus:outline-none'>
+            Submit
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 }
 
-export default cart
+export default cart;
