@@ -4,6 +4,8 @@ import { connectbd } from "./config/db.js"
 import foodrouter from "./routes/foodroute.js"
 import userrouter from "./routes/userroute.js"
 import 'dotenv/config'
+import cartrouter from "./routes/cartroute.js"
+import orderrouter from "./routes/orderroute.js"
 //app confi
 const app = express()
 const port=4000
@@ -19,6 +21,8 @@ connectbd();
 app.use("/api/food",foodrouter)
 app.use("/images",express.static('uploads'))
 app.use("/api/user",userrouter)
+app.use("/api/cart",cartrouter)
+app.use("/api/oreder",orderrouter)
 
 app.get("/",(req,res)=>{
     res.send("API working")

@@ -9,6 +9,7 @@ const Navbar = ({ setLogin }) => {
   const { gettotal, token, settoken } = useContext(StoreContext);
   const [isDropdownOpen, setDropdownOpen] = useState(false); // State for managing dropdown visibility
   const menuItems = ["Home", "Menu", "Mobile App", "Contact Us"];
+  
   const navigate=useNavigate();
   const logout=()=>{
     localStorage.removeItem("token");
@@ -23,18 +24,21 @@ const Navbar = ({ setLogin }) => {
         <img src={assets.logo} className='w-36' alt="Logo" />
       </Link>
       <ul className="flex list-none gap-5 text-zinc-900 text-2xl">
-        {menuItems.map((item) => (
-          <li
-            key={item}
-            onClick={() => setMenu(item)}
-            className={`cursor-pointer py-2 px-4 rounded transition duration-300 ${
-              menu === item ? "border-b-5 border-b-orange-400" : "hover:bg-orange-200 rounded-full"
-            }`}
-          >
-            {item}
-          </li>
-        ))}
-      </ul>
+    {menuItems.map((item) => (
+      <li
+        key={item}
+        onClick={() => setMenu(item)}
+        className={`cursor-pointer py-2 px-4 rounded transition duration-300 ${
+       menu === item ? "border-b-4 border-b-orange-400" : "hover:bg-orange-400 rounded-full"
+        }`}
+        
+        
+        aria-current={menu === item ? "page" : undefined}
+      >
+        {item}
+      </li>
+    ))}
+  </ul>
 
       <div className="flex items-center gap-10 relative">
         <img src={assets.search_icon} alt="Search Icon" />
