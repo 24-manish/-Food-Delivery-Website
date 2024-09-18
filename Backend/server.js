@@ -22,7 +22,7 @@ app.use("/api/food",foodrouter)
 app.use("/images",express.static('uploads'))
 app.use("/api/user",userrouter)
 app.use("/api/cart",cartrouter)
-app.use("/api/oreder",orderrouter)
+app.use("/api/order",orderrouter)
 
 app.get("/",(req,res)=>{
     res.send("API working")

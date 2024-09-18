@@ -1,6 +1,5 @@
 import usermodel from "../models/usermodel.js";
 
-// Add items to user cart
 const addtocart = async (req, res) => {
   try {
     let userdata = await usermodel.findOne({ _id: req.body.userid });
@@ -44,6 +43,28 @@ const removefromcart = async (req, res) => {
     res.json({ success: false, message: "Error removing item from cart" });
   }
 };
+const clearCart = async (req, res) => {
+  try {
+    const { userid } = req.body;
+
+    if (!userid) {
+      return res.status(400).json({ success: false, message: 'User ID is required' });
+    }
+
+    const userdata = await usermodel.findOne({ _id: userid });
+    if (!userdata) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    // Clear cart data
+    await usermodel.findByIdAndUpdate(userid, { cartdata: {} });
+
+    res.json({ success: true, message: 'Cart cleared successfully' });
+  } catch (error) {
+    console.error('Error clearing cart:', error);
+    res.status(500).json({ success: false, message: 'Error clearing cart' });
+  }
+};
 
 // Fetch user cart data
 const getcart = async (req, res) => {
@@ -58,4 +79,6 @@ const getcart = async (req, res) => {
   }
 };
 
-export { addtocart, removefromcart, getcart };
+// Clear specific item from user cart
+
+export { addtocart, removefromcart, getcart, clearcart };
